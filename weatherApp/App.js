@@ -13,7 +13,7 @@ export default class App extends Component {
             //If response is in json then in success
             .then((responseJson) => {
                 //Success 
-                alert(responseJson.main.temp);
+                alert(responseJson.main.temp + " °C");
             })
     }
 
@@ -26,6 +26,7 @@ export default class App extends Component {
         );
     }
 }
+
 const styles = StyleSheet.create({
     MainContainer: {
         justifyContent: 'center',
