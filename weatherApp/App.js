@@ -1,19 +1,35 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+//import react 
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
+import { StyleSheet, View, Button, Alert } from 'react-native';
+//import all the components
+
+export default class App extends Component {
+
+    getDataUsingGet() {
+        //GET request 
+        fetch('https://api.openweathermap.org/data/2.5/weather?q=Viborg&APPID=6501c00ca1aab9e759f683ee66149937&units=metric')
+            .then((response) => response.json())
+            //If response is in json then in success
+            .then((responseJson) => {
+                //Success 
+                alert(responseJson.main.temp);
+            })
+    }
+
+    render() {
+        return (
+            <View style={styles.MainContainer}>
+                {/*Running GET Request*/}
+                <Button title='Get Data Using GET' onPress={this.getDataUsingGet} />
+            </View>
+        );
+    }
 }
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    MainContainer: {
+        justifyContent: 'center',
+        flex: 1,
+        margin: 10
+    }
 });
