@@ -16,22 +16,37 @@ export default class App extends Component {
             temp_max: '',
             temp_min: '',
             humidity: '',
-            location: ''
+            location: '',
+            value: ''
         }
+        this.handleChangeText = this.handleChangeText.bind(this)
+    }
+
+    handleChangeText(newText) {
+        this.setState({
+            value: newText
+        })
     }
 
     getWeather = () => {
-        fetch('https://api.openweathermap.org/data/2.5/weather?q=' + 'Viborg' + '&APPID=6501c00ca1aab9e759f683ee66149937&units=metric')
-            .then((response) => response.json())
+        if (this.state.value == 0) {
+            alert('You have to enter a City or Country')
+        } else {
+            fetch('https://api.openweathermap.org/data/2.5/weather?q=' + this.state.value + '&APPID=6501c00ca1aab9e759f683ee66149937&units=metric')
+                .then((response) => response.json())
 
-            .then((responseJson) => {
-                this.setState({ 'temp': 'Temp: ' + responseJson.main.temp + ' °C' })
-                this.setState({ 'feels_like': 'Feels Like: ' + responseJson.main.feels_like + ' °C' })
-                this.setState({ 'temp_max': 'Max Temp: ' + responseJson.main.temp_max + ' °C' })
-                this.setState({ 'temp_min': 'Min Temp: ' + responseJson.main.temp_min + ' °C' })
-                this.setState({ 'humidity': 'Humidity: ' + responseJson.main.humidity + ' %' })
-                this.setState({ 'location': 'Location: ' + responseJson.sys.country + ', ' + responseJson.name })
-            })
+                .then((responseJson) => {
+                    this.setState({ 'temp': 'Temp: ' + responseJson.main.temp + ' °C' })
+                    this.setState({ 'feels_like': 'Feels Like: ' + responseJson.main.feels_like + ' °C' })
+                    this.setState({ 'temp_max': 'Max Temp: ' + responseJson.main.temp_max + ' °C' })
+                    this.setState({ 'temp_min': 'Min Temp: ' + responseJson.main.temp_min + ' °C' })
+                    this.setState({ 'humidity': 'Humidity: ' + responseJson.main.humidity + ' %' })
+                    this.setState({ 'location': 'Location: ' + responseJson.sys.country + ', ' + responseJson.name })
+                })
+                .catch((error) => {
+                    alert('City or Country does not exist');
+                });
+        }
     }
 
     render() {
@@ -39,6 +54,8 @@ export default class App extends Component {
             <View style={styles.screen}>
                 <TextInput
                     style={styles.input}
+                    defaultValue={this.state.value}
+                    onChangeText={this.handleChangeText}
                     placeholderTextColor="black"
                     placeholder={"City or Country"} />
                 <Weather onPress={this.getWeather} />
