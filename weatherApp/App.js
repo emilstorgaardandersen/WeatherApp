@@ -45,8 +45,7 @@ export default class App extends Component {
                     this.setState({ 'humidity': 'Humidity: ' + responseJson.main.humidity + ' %' })
                     this.setState({ 'location': 'Location: ' + responseJson.sys.country + ', ' + responseJson.name })
                     this.setState({ 'description': responseJson.weather[0].description })
-                    this.setState({ 'icon': './assets/' + responseJson.weather[0].icon + '.png' })
-                    console.log(this.state.icon)
+                    this.setState({ 'icon': responseJson.weather[0].icon })
                 })
                 .catch((error) => {
                     alert('City or Country does not exist');
@@ -74,9 +73,10 @@ export default class App extends Component {
                 <Text style={styles.text}>{this.state.humidity}</Text>
                 <Text style={styles.text}>{this.state.location}</Text>
                 <Text style={styles.text}>{this.state.description}</Text>
-                <Text style={styles.text}>{this.state.icon}</Text>
                 <View style={styles.image}>
-                    <Image style={styles.size} source={(this.state.icon)} />
+                    <Image
+                        style={styles.size}
+                        source={{ uri: 'http://openweathermap.org/img/wn/' + this.state.icon + '@2x.png' }} />
                 </View>
             </View>
         );

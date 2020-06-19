@@ -8,13 +8,24 @@ import {
 } from 'react-native'
 
 const Weather = (props) => {
-
     return (
-        <Button title="View Weather"
-            color="black"
-            onPress={() => props.onPress()}
-        />
+        <View style={styles.button}>
+            <Button
+                color="black"
+                title="Search" // View Weather 
+                onPress={() => props.onPress()}
+            />
+        </View>
     );
 
 }
+
 export default Weather;
+
+const styles = StyleSheet.create({
+    button: {
+        borderWidth: 2,
+        borderColor: 'black',
+        backgroundColor: 'gray',
+    }
+})
