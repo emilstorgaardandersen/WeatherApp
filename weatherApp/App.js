@@ -56,7 +56,7 @@ export default class App extends Component {
     render() {
         return (
             <View style={styles.screen}>
-                <Text style={styles.headLine}>Best weather app ever!</Text>
+                <Text style={styles.headLine}>Weather App!</Text>
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={styles.input}
@@ -90,14 +90,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#00ECFF',
     },
     headLine: {
-        fontSize: 23,
+        fontSize: 40,
         padding: 10,
         fontWeight: 'bold',
         padding: 10,
         marginVertical: 10,
     },
     text: {
-        fontSize: 26,
+        fontSize: 20,
         padding: 10,
         fontWeight: 'bold',
         padding: 10,
