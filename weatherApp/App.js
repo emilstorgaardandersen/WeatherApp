@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 //import react 
 
-import { StyleSheet, View, Button, Alert, Text, TextInput, Image } from 'react-native';
+import { StyleSheet, View, Button, Alert, Text, TextInput, Image, Linking } from 'react-native';
 //import all the components
 
 import Weather from './components/Weather'
@@ -18,6 +18,8 @@ export default class App extends Component {
             humidity: '',
             location: '',
             description: '',
+            lon: '',
+            lat: '',
             icon: '',
             value: ''
         }
@@ -44,6 +46,8 @@ export default class App extends Component {
                     this.setState({ 'temp_min': 'Min Temp: ' + responseJson.main.temp_min + ' °C' })
                     this.setState({ 'humidity': 'Humidity: ' + responseJson.main.humidity + ' %' })
                     this.setState({ 'location': 'Location: ' + responseJson.sys.country + ', ' + responseJson.name })
+                    this.setState({ 'lon': responseJson.coord.lon })
+                    this.setState({ 'lat': responseJson.coord.lat })
                     this.setState({ 'description': responseJson.weather[0].description })
                     this.setState({ 'icon': responseJson.weather[0].icon })
                 })
@@ -73,11 +77,21 @@ export default class App extends Component {
                 <Text style={styles.text}>{this.state.humidity}</Text>
                 <Text style={styles.text}>{this.state.location}</Text>
                 <Text style={styles.text}>{this.state.description}</Text>
+
                 <View style={styles.image}>
                     <Image
                         style={styles.size}
                         source={{ uri: 'http://openweathermap.org/img/wn/' + this.state.icon + '@2x.png' }} />
                 </View>
+
+                <View style={styles.button}>
+                    <Button
+                        color="Black"
+                        title="Se location"
+                        onPress={() => Linking.openURL('https://www.google.com/maps/search/' + this.state.lat + ',+' + this.state.lon + '?sa=X&ved=2ahUKEwiGzYjf4ZTqAhUEyaQKHZAiBF4Q8gEwAHoECAYQAQ')}>
+                    </Button>
+                </View>
+
             </View>
         );
     }
@@ -104,7 +118,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         backgroundColor: '#ccc',
         borderColor: 'black',
-        borderWidth: 1
+        borderWidth: 2
     },
     input: {
         width: '70%',
@@ -130,5 +144,12 @@ const styles = StyleSheet.create({
         width: 150,
         height: 150,
         resizeMode: 'stretch',
+    },
+    button: {
+        borderWidth: 2,
+        borderColor: 'black',
+        backgroundColor: 'gray',
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });
