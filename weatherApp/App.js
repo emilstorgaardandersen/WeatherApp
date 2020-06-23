@@ -1,12 +1,35 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 //import react 
 
-import { StyleSheet, View, Button, Alert, Text, TextInput, Image, Linking } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    Button,
+    Alert,
+    Text,
+    TextInput,
+    Image,
+    Linking,
+    Platform,
+    TouchableOpacity
+} from 'react-native';
 //import all the components
 
-import Weather from './components/Weather'
+import Weather from './components/Weather';
+
+//const width = Dimensions.get.width;
+//const height = Dimensions.get.height;
 
 export default class App extends Component {
+    findCoordinates = () => {
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                const gps = position;
+
+                this.setState({ 'gps': gps.coords.latitude + ',+' + gps.coords.longitude });
+            },
+        );
+    };
 
     constructor() {
         super()
@@ -21,7 +44,8 @@ export default class App extends Component {
             lon: '',
             lat: '',
             icon: '',
-            value: ''
+            value: '',
+            gps: ''
         }
         this.handleChangeText = this.handleChangeText.bind(this)
     }
@@ -67,7 +91,7 @@ export default class App extends Component {
                         defaultValue={this.state.value}
                         onChangeText={this.handleChangeText}
                         placeholderTextColor="black"
-                        placeholder={"City or Country"} />
+                        placeholder={"City or Country..."} />
                     <Weather style={styles.text1} onPress={this.getWeather} />
                 </View>
                 <Text style={styles.text}>{this.state.temp}</Text>
@@ -87,8 +111,20 @@ export default class App extends Component {
                 <View style={styles.button}>
                     <Button
                         color="Black"
-                        title="Se location"
+                        title="SEE LOCATION"
                         onPress={() => Linking.openURL('https://www.google.com/maps/search/' + this.state.lat + ',+' + this.state.lon + '?sa=X&ved=2ahUKEwiGzYjf4ZTqAhUEyaQKHZAiBF4Q8gEwAHoECAYQAQ')}>
+                    </Button>
+                </View>
+                <View style={styles.button}>
+                    <TouchableOpacity onPress={this.findCoordinates}>
+                        <Text>Location:</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.button}>
+                    <Button
+                        color="Black"
+                        title="SEE LOCATION"
+                        onPress={() => Linking.openURL('https://www.google.com/maps/search/' + this.state.gps + '?sa=X&ved=2ahUKEwiGzYjf4ZTqAhUEyaQKHZAiBF4Q8gEwAHoECAYQAQ')}>
                     </Button>
                 </View>
 
@@ -99,33 +135,31 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
     screen: {
-        padding: 50,
-        height: '100%',
+        padding: "10%",
+        height: "100%",
         backgroundColor: '#00ECFF',
     },
     headLine: {
         fontSize: 40,
-        padding: 10,
         fontWeight: 'bold',
-        padding: 10,
-        marginVertical: 10,
+        padding: "5%",
+        marginVertical: "5%",
     },
     text: {
-        fontSize: 20,
-        padding: 10,
+        fontSize: 16,
         fontWeight: 'bold',
-        padding: 10,
-        marginVertical: 10,
+        padding: "2%",
+        marginVertical: "3%",
         backgroundColor: '#ccc',
         borderColor: 'black',
         borderWidth: 2
     },
     input: {
-        width: '70%',
-        paddingVertical: 0,
-        paddingHorizontal: 15,
-        height: 40,
-        margin: 10,
+        width: "70%",
+        paddingVertical: "0%",
+        paddingHorizontal: "2%",
+        height: "93%",
+        margin: "2%",
         fontSize: 18,
         borderWidth: 2,
         borderColor: 'black',
