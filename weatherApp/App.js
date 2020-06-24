@@ -11,22 +11,61 @@ import {
     Image,
     Linking,
     Platform,
-    TouchableOpacity
+    TouchableOpacity,
+    Navigator,
+    AppRegistry
 } from 'react-native';
 //import all the components
 
 import Weather from './components/Weather';
 
-//const width = Dimensions.get.width;
-//const height = Dimensions.get.height;
-
 export default class App extends Component {
+    render() {
+        return (
+            <Navigator initialRoute={{ id: 'Page1' }}
+                renderScene={this.navigatorRenderScreen} />
+        );
+    }
+
+    navigatorRenderScreen(route, navigator) {
+        switch (route, id) {
+            case 'Page1':
+                return (<Page1 navigator={navigator} />);
+            case 'Page2':
+                return (<Page2 navigator={navigator} />);
+
+        }
+    }
+}
+
+class Page1 extends Component {
     findCoordinates = () => {
         navigator.geolocation.getCurrentPosition(
             position => {
                 const gps = position;
 
-                this.setState({ 'gps': gps.coords.latitude + ',+' + gps.coords.longitude });
+                this.setState({ 'gps': 'lat=' + gps.coords.latitude + '&lon=' + gps.coords.longitude });
+
+                fetch('http://api.openweathermap.org/data/2.5/weather?' + this.state.gps + '&appid=6501c00ca1aab9e759f683ee66149937&units=metric')
+                    .then((response) => response.json())
+
+                    .then((responseJson) => {
+                        this.setState({ 'temp': 'Temp: ' + responseJson.main.temp + ' °C' })
+                        this.setState({ 'feels_like': 'Feels Like: ' + responseJson.main.feels_like + ' °C' })
+                        this.setState({ 'temp_max': 'Max Temp: ' + responseJson.main.temp_max + ' °C' })
+                        this.setState({ 'temp_min': 'Min Temp: ' + responseJson.main.temp_min + ' °C' })
+                        this.setState({ 'humidity': 'Humidity: ' + responseJson.main.humidity + ' %' })
+                        this.setState({ 'location': 'Location: ' + responseJson.sys.country + ', ' + responseJson.name })
+                        this.setState({ 'lon': responseJson.coord.lon })
+                        this.setState({ 'lat': responseJson.coord.lat })
+                        this.setState({ 'description': responseJson.weather[0].description })
+                        this.setState({ 'icon': responseJson.weather[0].icon })
+                        this.setState({ 'place': responseJson.sys.country + ', ' + responseJson.name })
+                    })
+                    .catch((error) => {
+                        alert('City or Country does not exist');
+                    });
+
             },
         );
     };
@@ -45,7 +84,8 @@ export default class App extends Component {
             lat: '',
             icon: '',
             value: '',
-            gps: ''
+            gps: '',
+            place: ''
         }
         this.handleChangeText = this.handleChangeText.bind(this)
     }
@@ -104,34 +144,38 @@ export default class App extends Component {
 
                 <View style={styles.image}>
                     <Image
-                        style={styles.size}
+                        style={styles.iconSize}
                         source={{ uri: 'http://openweathermap.org/img/wn/' + this.state.icon + '@2x.png' }} />
                 </View>
 
                 <View style={styles.button}>
-                    <Button
-                        color="Black"
-                        title="SEE LOCATION"
-                        onPress={() => Linking.openURL('https://www.google.com/maps/search/' + this.state.lat + ',+' + this.state.lon + '?sa=X&ved=2ahUKEwiGzYjf4ZTqAhUEyaQKHZAiBF4Q8gEwAHoECAYQAQ')}>
-                    </Button>
-                </View>
-                <View style={styles.button}>
                     <TouchableOpacity onPress={this.findCoordinates}>
-                        <Text>Location:</Text>
+                        <Text style={{ fontSize: 18 }}>CURRENT WEATHER:</Text>
+                        <Text style={{ fontSize: 18 }}>{this.state.place}</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.button}>
-                    <Button
-                        color="Black"
-                        title="SEE LOCATION"
-                        onPress={() => Linking.openURL('https://www.google.com/maps/search/' + this.state.gps + '?sa=X&ved=2ahUKEwiGzYjf4ZTqAhUEyaQKHZAiBF4Q8gEwAHoECAYQAQ')}>
-                    </Button>
-                </View>
 
+                <View style={styles.button}>
+                    <Text
+                        onPress={() => Linking.openURL('https://www.google.com/maps/search/' + this.state.lat + ',+' + this.state.lon + '?sa=X&ved=2ahUKEwiGzYjf4ZTqAhUEyaQKHZAiBF4Q8gEwAHoECAYQAQ')}
+                        style={{ fontSize: 18, padding: 5 }}>
+                        VIEW LOCATION
+                    </Text>
+                </View>
             </View>
         );
     }
 }
+
+class Page2 extends Component {
+    render() {
+        return (
+            <Text>This is second page</Text>
+        );
+    }
+}
+
+AppRegistry.registerComponent('App', () => 'App');
 
 const styles = StyleSheet.create({
     screen: {
@@ -174,9 +218,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    size: {
-        width: 150,
-        height: 150,
+    iconSize: {
+        width: 100,
+        height: 100,
         resizeMode: 'stretch',
     },
     button: {
@@ -185,5 +229,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'gray',
         justifyContent: 'center',
         alignItems: 'center',
-    }
+        margin: 5,
+
+    },
 });
