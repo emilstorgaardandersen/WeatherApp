@@ -153,13 +153,14 @@ const styles = StyleSheet.create({
     screen: {
         padding: "10%",
         height: "100%",
+        width: "100%",
         backgroundColor: '#00ECFF',
     },
     headLine: {
         fontSize: 40,
         fontWeight: 'bold',
-        padding: "5%",
-        marginVertical: "5%",
+        //padding: "10%",
+        //marginVertical: "5%",
     },
     text: {
         fontSize: 16,
