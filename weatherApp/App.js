@@ -3,8 +3,9 @@ import React, { Component } from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import HomeScreen from './components/HomeScreen';
-import FirstPage from './components/FirstPage';
+import HomeScreen from './pages/HomeScreen';
+import WeatherPage from './pages/WeatherPage';
+import Saved from './pages/Saved';
 
 const Stack = createStackNavigator();
 
@@ -13,7 +14,8 @@ export default function App() {
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Home">
                 <Stack.Screen name="Home" component={HomeScreen} />
-                <Stack.Screen name="FirstPage" component={FirstPage} />
+                <Stack.Screen name="Weather" component={WeatherPage} />
+                <Stack.Screen name="Saved" component={Saved} />
             </Stack.Navigator>
         </NavigationContainer>
     )

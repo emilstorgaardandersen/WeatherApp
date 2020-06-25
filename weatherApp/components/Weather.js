@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import {
     View,
-    Text,
     StyleSheet,
     Button,
-    ImagePropTypes
 } from 'react-native'
 
 const Weather = (props) => {

@@ -6,7 +6,7 @@ export default class SecondPage extends React.Component {
         return (
             <View style={styles.screen}>
                 <View style={styles.button}>
-                    <Text style={styles.text} onPress={() => this.props.navigation.navigate('FirstPage')}>Welcome to Weather APP</Text>
+                    <Text style={styles.text} onPress={() => this.props.navigation.navigate('Weather')}>Welcome to Weather APP</Text>
                 </View>
             </View>
         )

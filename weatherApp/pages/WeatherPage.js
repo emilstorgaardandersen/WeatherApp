@@ -5,19 +5,15 @@ import {
     StyleSheet,
     View,
     Button,
-    Alert,
     Text,
     TextInput,
     Image,
     Linking,
-    Platform,
     TouchableOpacity,
-    Navigator,
-    AppRegistry
 } from 'react-native';
 //import all the components
 
-import Weather from './Weather';
+import Weather from '../components/Weather';
 
 export default class FirstPage extends Component {
     findCoordinates = () => {
@@ -64,7 +60,7 @@ export default class FirstPage extends Component {
             lon: '',
             lat: '',
             icon: '',
-            value: '',
+            inputText: '',
             gps: '',
             place: ''
         }
@@ -73,15 +69,15 @@ export default class FirstPage extends Component {
 
     handleChangeText(newText) {
         this.setState({
-            value: newText
+            inputText: newText
         })
     }
 
     getWeather = () => {
-        if (this.state.value == 0) {
+        if (this.state.inputText == 0) {
             alert('You have to enter a City or Country')
         } else {
-            fetch('https://api.openweathermap.org/data/2.5/weather?q=' + this.state.value + '&APPID=6501c00ca1aab9e759f683ee66149937&units=metric')
+            fetch('https://api.openweathermap.org/data/2.5/weather?q=' + this.state.inputText + '&APPID=6501c00ca1aab9e759f683ee66149937&units=metric')
                 .then((response) => response.json())
 
                 .then((responseJson) => {
@@ -109,11 +105,11 @@ export default class FirstPage extends Component {
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={styles.input}
-                        defaultValue={this.state.value}
+                        defaultValue={this.state.inputText}
                         onChangeText={this.handleChangeText}
                         placeholderTextColor="black"
                         placeholder={"City or Country..."} />
-                    <Weather style={styles.text1} onPress={this.getWeather} />
+                    <Weather style={styles.text} onPress={this.getWeather} />
                 </View>
                 <Text style={styles.text}>{this.state.temp}</Text>
                 <Text style={styles.text}>{this.state.feels_like}</Text>
@@ -143,11 +139,11 @@ export default class FirstPage extends Component {
                         VIEW LOCATION
                     </Text>
                 </View>
+                <Text style={{ textAlign: 'right', fontSize: 20, fontWeight: 'bold' }} onPress={() => this.props.navigation.navigate('Saved')}>Saved</Text>
             </View>
         );
     }
 }
-
 
 const styles = StyleSheet.create({
     screen: {
