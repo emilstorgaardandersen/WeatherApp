@@ -1,18 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default class SecondPage extends React.Component {
     render() {
         return (
             <View style={styles.screen}>
                 <Text style={styles.headLine}>Saved locations</Text>
-                <Text style={styles.text}></Text>
-                <Text style={styles.text}></Text>
-                <Text style={styles.text}></Text>
-                <Text style={styles.text}></Text>
-                <Text style={styles.text}></Text>
-                <Text style={styles.text}></Text>
-                <Text style={styles.text}></Text>
+                <Text style={styles.text} onPress={() => this.props.navigation.navigate('Weather')}>Viborg</Text>
+                <Text style={styles.text} onPress={() => this.props.navigation.navigate('Weather')}>Danmark</Text>
+                <Text style={styles.text} onPress={() => this.props.navigation.navigate('Weather')}>Silkeborg</Text>
+                <Text style={styles.text} onPress={() => this.props.navigation.navigate('Weather')}>Californien</Text>
+                <Text style={styles.text} onPress={() => this.props.navigation.navigate('Weather')}>Spanien</Text>
+                <Text style={styles.text} onPress={() => this.props.navigation.navigate('Weather')}>København</Text>
+                <Text style={styles.text} onPress={() => this.props.navigation.navigate('Weather')}>Sverige</Text>
             </View>
         )
     }

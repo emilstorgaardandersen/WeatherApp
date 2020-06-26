@@ -14,6 +14,7 @@ import {
 //import all the components
 
 import Weather from '../components/Weather';
+import Map from '../components/Map';
 
 export default class FirstPage extends Component {
     findCoordinates = () => {
@@ -103,8 +104,7 @@ export default class FirstPage extends Component {
             <View style={styles.screen}>
                 <Text style={styles.headLine}>Weather App!</Text>
                 <View style={styles.inputContainer}>
-                    <TextInput
-                        style={styles.input}
+                    <TextInput style={styles.input}
                         defaultValue={this.state.inputText}
                         onChangeText={this.handleChangeText}
                         placeholderTextColor="black"
@@ -133,11 +133,7 @@ export default class FirstPage extends Component {
                 </View>
 
                 <View style={styles.button}>
-                    <Text
-                        onPress={() => Linking.openURL('https://www.google.com/maps/search/' + this.state.lat + ',+' + this.state.lon + '?sa=X&ved=2ahUKEwiGzYjf4ZTqAhUEyaQKHZAiBF4Q8gEwAHoECAYQAQ')}
-                        style={{ fontSize: 18, padding: 5 }}>
-                        VIEW LOCATION
-                    </Text>
+                    <Map onPress={() => Linking.openURL('https://www.google.com/maps/search/' + this.state.lat + ',+' + this.state.lon + '?sa=X&ved=2ahUKEwiGzYjf4ZTqAhUEyaQKHZAiBF4Q8gEwAHoECAYQAQ')} />
                 </View>
                 <Text style={{ textAlign: 'right', fontSize: 20, fontWeight: 'bold' }} onPress={() => this.props.navigation.navigate('Saved')}>Saved</Text>
             </View>
